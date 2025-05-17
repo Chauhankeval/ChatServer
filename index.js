@@ -18,13 +18,22 @@ const port = process.env.PORT;
 const databaseURL = process.env.DATABASE_URL;
 
 console.log(process.env.ORIGIN)
+const allowedOrigins = process.env.ORIGIN?.split(",") || [];
+
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
+
 
 app.use("/uploads/profiles", express.static(path.resolve("uploads/profiles")));
 app.use("/uploads/files", express.static(path.resolve("uploads/files")));
