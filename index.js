@@ -43,7 +43,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("api/auth", AuthRoute);
+app.use("/api/auth", AuthRoute);
 app.use("/api/contects", ContectRoute);
 app.use("/api/messages", MessagesRoute);
 app.use("/api/channel", ChannelRoute);
